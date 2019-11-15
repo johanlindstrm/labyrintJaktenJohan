@@ -1,0 +1,58 @@
+html, body {/* Mainly not allowing scrolling on the page */
+    width:700px; 
+    background: black; 
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden
+} 
+
+h1 { 
+    margin:0; 
+    color: white; 
+    font-family: silkscreen; 
+    font-weight: normal; 
+    text-align: center; 
+    font-size: 3.5em;}
+
+button { 
+    width: 100px; 
+    height: 45px; 
+    margin-left: 62px; 
+    font-family: silkscreen; 
+    font-size: 1.5em;
+}
+
+button:hover { 
+    background: #808080;
+}
+
+canvas{
+    margin-left: 60px; 
+    border: 3px solid white;
+}
+/*
+.alert{
+    margin-left:60px; 
+    position: absolute; 
+    width: 600px; 
+    height: 600px;}*/
+
+.countDown{
+    margin-left: 50px;
+    color: white;
+    font-family: silkscreen;
+    text-align: center;
+    font-size: 20px;
+}
+
+p{
+    color: white;
+    text-align: center;
+    font-family: silkscreen;
+    font-size: 30px;
+}
+/***********************************
+* font-family: silkscreen <- This font doesnt work on all machines. I downloaded it because I liked it.
+* TODO add a secondary font incase the person using doesnt have 'silkscreen'
+* 
+*/

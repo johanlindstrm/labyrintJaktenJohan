@@ -15,7 +15,7 @@ Character.prototype.placeAt = function(x, y)
 	this.position	= [((tileW*x)+((tileW-this.dimensions[0])/2)),
 		((tileH*y)+((tileH-this.dimensions[1])/2))];
 };
-Character.prototype.processMovement = function(t)
+Character.prototype.processMovement = function(t) // Math getting the player to move 
 {
 	if(this.tileFrom[0]==this.tileTo[0] && this.tileFrom[1]==this.tileTo[1]) { return false; }
 
@@ -50,6 +50,31 @@ Character.prototype.processMovement = function(t)
 
 	return true;
 }
+
+// Not working at the moment, I'm trying
+Character.prototype.buttonMove = function() {
+    
+			var toX = player.x + x, toY = player.y + y;
+			if (gameMap[toY][toX] === '1' || gameMap[toY][toX] === '2') {
+				player.x = toX;
+				player.y = toY;
+			}
+		
+		
+		document.getElementById('button-up').onclick = function () {
+			playerMove(0, -1);
+		};
+		document.getElementById('button-down').onclick = function () {
+			playerMove(0, 1);
+		};
+		document.getElementById('button-right').onclick = function () {
+			playerMove(1, 0);
+		};
+		document.getElementById('button-left').onclick = function () {
+			playerMove(-1, 0);
+		};
+		
+	}
 
 function toIndex(x, y)
 {
