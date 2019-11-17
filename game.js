@@ -19,34 +19,11 @@ var tileEvents = {
 	22	: enemyCollide
 };
 
-/**************
- * 30s timer 
- * Added timer for extra suspense and wanted a working ending
- * TIPS * Comment out the countDown function when working on the code so it dosen't interupt. 
- * 
-var timeLeft = 30;
-
-    var elem = document.getElementById('some_div');
-    
-    var timerId = setInterval(countdown, 1000);
-    
-    function countdown() 
-    {
-      if (timeLeft == 0) {
-        clearTimeout(timerId);
-        Defeat();
-      } else {
-        document.getElementById('some_div').innerHTML = timeLeft + ' seconds remaining';
-        timeLeft--;
-      }
-      console.log(timeLeft);
-    }*/
-
 // Function that is called when the player is out of time.
 function Defeat()
 {
 	alert('OUT OF TIME! YOU LOSE!');
-	console.log('GG');
+	console.log('timer = 0');
 	location.reload();
 }
 
@@ -61,10 +38,8 @@ function Goal()
 // Function that is called when player collide with enemy. (Not really just triggers when at tile 28 in array)
 function enemyCollide()
 {
-    //document.getElementById('alertBox');
-	document.getElementById('alertBox') == alert('DEAD');
 	alert('Ugh! You died! Press OK to restart!');
-	console.log('GG');
+	console.log('collided with enemy');
 	location.reload();
 }
 
@@ -82,7 +57,9 @@ var tileTypes = {
 }
 
 var enemy = new enemy();
-// Creating our character object with properties. Properties can be seen in the movement script.js
+
+// Creating our character object with properties.
+// Properties can be seen in the movement script.js
 var player = new Character();
 
 // Tag all keys as false from the beginning
@@ -94,22 +71,64 @@ var keysDown =
 	40 : false
 };
 
-var x=45;
-var y=45;
-var velocity = 10;
 // Giving the enemy object some properties (same as our player)
 function enemy() {
-	this.tileFrom	= [1,1];
-	this.tileTo		= [1,1];
-	this.timeMoved	= 0;
-	this.dimensions	= [30,30];
-	this.position	= [285,45]; // Starting position // use move the enemy?
-	this.endPosition = [100,45];
-    this.delayMove	= 300;
-
+	this.dimensions	= [30,30]; // Dimensions for the enemy
+	this.position	= [285,45]; // Starting position for the enemy
+	this.endPosition = [100,45]; // End position for the enemy
 }
 
-// Determine where our Character can go. That he is only allowed move on tiles = 0/path. In the beginning we can alter out map and create more path with diffrent tiles.
+/*
+var startPos = [285, 45];
+var endPos = [100, 45];
+var dx = -3, dy = 0;
+var x = startPos[0], y = startPos[1];
+function drawEnemy() {
+    ctx.fillStyle = "#ff0000";
+    ctx.clearRect(0, 0, 600, 600);
+    ctx.fillRect(x, y, 30, 30);
+    x += dx;
+    y += dy;
+    if (x < endPos[0] || x > startPos[0] ||
+        y < endPos[1] || y > startPos[1] ) {
+        dx = -dx;
+        dy = -dy;
+    }
+    setTimeout(drawEnemy, 16); */
+
+
+/**************
+ * 30s timer 
+ * Added timer for extra suspense and wanted a working ending
+ * TIPS * Comment out the countDown function when working on the code so it dosen't interupt. 
+ */
+var timeLeft = 30;
+
+    var counter = document.getElementById('timeDiv');
+    
+    var timerId = setInterval(countdown, 1000); // Counts down 1 sec
+    
+    function countdown() 
+    {
+      if (timeLeft == 0) {
+        clearTimeout(timerId);
+        Defeat(); // if time reaches 0 call for the Defeat function which alerts the player lost and reloads the page.
+      } else {
+        document.getElementById('counterId').innerHTML = timeLeft + ' seconds remaining';
+        timeLeft--;
+      }
+	  console.log(timeLeft); // debugging
+	}
+	
+
+/* Quick background audio, restarts when time runs out or you win because the page reloads.
+ *   Audio found at youtube free audio library
+ */
+var mySound = document.createElement('audio'); // variable my sound and the document.createElement() method that creates in my case the audio element for my background music.
+mySound.src = 'bgMusic.mp3'; // Creating the link to the audio
+mySound.play();	// is a function to play the audio
+
+// Determine where our Character can go. That he is only allowed move on tiles = 0/path. In the beginning we can alter our map and create more path with diffrent tiles.
 Character.prototype.canMoveTo = function(x, y)
 {
 	if(x < 0 || x >= mapW || y < 0 || y >= mapH) { return false; }
@@ -142,7 +161,7 @@ function startGame()
 	window.addEventListener("keyup", function(e) {
 		if(e.keyCode>=37 && e.keyCode<=40) { keysDown[e.keyCode] = false; }
 	});
-    Draw();
+	Draw();
 };
 // Erase function for the meny im working on may or may not be used, currently not doing anything right now.
 function erase() 
@@ -152,7 +171,7 @@ function erase()
 }
 
 // Big part of the script. Draws the gameMap/player/enemy and allows player movement
-function Draw() // Violation warning in console? "requestAnimationFrame took 55ms"
+function Draw() // Violation warning in console?? "requestAnimationFrame took 55ms"
 {
 	var currentFrameTime = Date.now();
 
@@ -162,25 +181,25 @@ function Draw() // Violation warning in console? "requestAnimationFrame took 55m
 		else if(keysDown[37] && player.canMoveLeft())	{ player.moveLeft(currentFrameTime); }
 		else if(keysDown[39] && player.canMoveRight())	{ player.moveRight(currentFrameTime); }
     }
-    
+	//Loops our array at the x, y axis (row = x and column = y).
 	for(var y = 0; y < mapH; ++y)
 	{
 		for(var x = 0; x < mapW; ++x)
 		{
-
-			ctx.fillStyle = tileTypes[gameMap[toIndex(x,y)]].colour; // Fills the tileTypes in the array
+			ctx.fillStyle = tileTypes[gameMap[toIndex(x,y)]].colour;
 
 			ctx.fillRect( x*tileW, y*tileH, tileW, tileH);
 		}
 	}
 	// Draws the player with the dimensions given
-	ctx.fillStyle = "#00ffff";
-	ctx.fillRect(player.position[0], player.position[1],
+	ctx.fillStyle = "#00ffff"; 							// Color of the rectangle
+	ctx.fillRect(player.position[0], player.position[1],// Fills the rectangle of the players dimensions in its position
 		player.dimensions[0], player.dimensions[1]);
+
 	// Draws the enemy with the dimensions given
-	ctx.fillStyle = "#ff0000";
-	ctx.fillRect(enemy.position[0], enemy.position[1],
-    enemy.dimensions[0], enemy.dimensions[1]);
+	ctx.fillStyle = "#ff0000"; 						  	// Color of the rectangle
+	ctx.fillRect(enemy.position[0], enemy.position[1],  // Fills the rectangle of the enemys dimension where its positions at
+    	enemy.dimensions[0], enemy.dimensions[1]);
 	
 	lastFrameTime = currentFrameTime;
 	requestAnimationFrame(Draw);

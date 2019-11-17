@@ -1,17 +1,20 @@
-<!DOCTYPE html>
-<html>
 <!-------------------------------
  * First javascript app project by Johan Lindström
  * "Labyrint Jakten" is a 2d maze game with a simple goal reach the end!
- * In the code you will find out how i Draw my gameMap, Player, Enemy
- * Make my player move around and much more!
+ * In the code you will find out how I Draw my gameMap, Player, Enemy
+ * Make the player move using your arrow keys or the button displayed on screen!
  * This app is easy to expand to a bigger project, create more tiles with different functions, maybe a teleporter or some power ups??
  * Get creative and keep 
+ *
+ * It can easily be scaled down/up by changing the mapW, mapH, tileW and tileH.
+ * Also edit the width and height of the canvas
  * 
 -->
+<!DOCTYPE html>
+<html>
 <head>
-<link rel="stylesheet" href="styles.css">
-
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  NOT USING JQUERY -->
+<link rel="stylesheet" type="text/css" href="styles.css">
 <script src="Movement.js" type="text/javascript"></script>
 <script src="map.js" type="text/javascript"></script>
 <script src="game.js" type="text/javascript"></script>
@@ -21,17 +24,23 @@
 
 <body onload="startGame()">
 <h1>Labyrint Jakten</h1>
-<div class="countDown" id="some_div">
-</div>
+<div class="countDown" id="counterId"></div>
 <canvas id="game" width="600" height="600"></canvas>
 <div>
-	<button type="button" onmousedown="player.moveUp();">&#8593</button>
-	<button type="button" onmousedown="player.moveLeft();">&#8592</button>
-	<button type="button" onmousedown="player.moveRight();">&#8594</button>
-	<button type="button" onmousedown="player.moveDown();">&#8595</button>
+	<button type="button" onmousedown="player.moveUp(0,1);">&#8593</button>		<!-- player.moveUp(0,1) allow the player to move up 1 space in the array -->
+	<button type="button" onmousedown="player.moveLeft(-1,0);">&#8592</button>	<!-- player.moveLeft(-1,0) allow the player to move left 1 space in the array -->
+	<button type="button" onmousedown="player.moveRight(1,0);">&#8594</button>	<!-- player.moveRight(1,0) allow the player to move right 1 space the array -->
+	<button type="button" onmousedown="player.moveDown(0,-1);">&#8595</button>	<!-- player.moveDown(0,-1) allow the player to move down 1 space the array -->
 </div>
 <p>USE ARROW KEYS TO MOVE</p>
 </body>
 </html>
 
-<!--<script src="map.js" type="text/javascript"></script> -->
+<!---------------
+TODO
+MAKE ALERT BOX WITH JQUERY		  	  |	NOT WORKING
+FIND A FIX FOR PLAYER BUTTON MOVEMENT | FIXED
+MAKE PLAYER MOVE AND COLLIDE PROPERLY | FIXED FOR ARROW KEYS, NOT WITH BUTTONS ON SCREEN
+ADD TIMER FOR DRAMATIC EFFECT 		  | ADDED
+
+-->
