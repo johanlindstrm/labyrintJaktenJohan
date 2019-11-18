@@ -1,6 +1,8 @@
 
-/* 2d array giving us context on how the map will look like the number represent diffrent tiles,
-some move.
+/* 2d array giving us context on how the map will look like, the number represent diffrent tiles.
+* 
+* 15x15 grid map with 0, 1, 2
+* 1 = path 2 = goal 0 = walls
 */
 var gameMap = [
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
