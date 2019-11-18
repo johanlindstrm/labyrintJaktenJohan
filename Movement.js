@@ -9,15 +9,9 @@ function Character()
 	this.delayMove	= 300;		// The time it will take to move 1 tile. I messed around and 300ms seems to be an okay speed.
 }
 /**********
- * placeAt allows me to place the player on the specific position
- * The horizontal and vertical positions of the character are th
- * Character position:
- * (Tile X * Tile Width) + (Horizontal diff./2),
- * (Tile Y * Tile Height) + (Vertical diff./2)
- * 
  * Our function takes two arguments; the x and y position of the destination tile.
  * It then updates the tileFrom and tileTo properties to the new tile coordinates, and
- * calculates the pixel position of the character using the following method:
+ * calculates "the true" pixel position of the character using the following method:
  * [character position] = [
  *	(([tile width] x [destination X coord]) + (([tile width] - [character width]) / 2)),
  *	(([tile height] x [destination Y coord]) + (([tile height] - [character height]) / 2))
@@ -38,9 +32,9 @@ Character.prototype.placeAt = function(x, y)
  */
 Character.prototype.processMovement = function(t)
 {
-	if(this.tileFrom[0]==this.tileTo[0] && this.tileFrom[1]==this.tileTo[1]) { return false; }
+	if(this.tileFrom[0]==this.tileTo[0] && this.tileFrom[1]==this.tileTo[1]) { return false; } // We check if the tileFrom && tileTo is equal with eachother if it is then we are not moving
 
-	if((t-this.timeMoved)>=this.delayMove)
+	if((t-this.timeMoved)>=this.delayMove) //We'll next check if the amount of time that has passed since the Character began its current movement is equal to or longer than the amount of time it takes this Character to move 1 tile. If it is, we set the Characters position to its destination tile using the placeAt method:
 	{
 		this.placeAt(this.tileTo[0], this.tileTo[1]);
 
@@ -49,31 +43,31 @@ Character.prototype.processMovement = function(t)
 			tileEvents[toIndex(this.tileTo[0], this.tileTo[1])](this);
 		}
 	}
-	else
+	else //If the above checks let us know that the Character is in fact still moving, we'll need to accurately calculate its current position on the canvas. To start with, we can calculate the position of the tile the Character is moving from (tileFrom).
 	{
 		this.position[0] = (this.tileFrom[0] * tileW) + ((tileW-this.dimensions[0])/2);
 		this.position[1] = (this.tileFrom[1] * tileH) + ((tileH-this.dimensions[1])/2);
 
-		if(this.tileTo[0] != this.tileFrom[0])
+		if(this.tileTo[0] != this.tileFrom[0]) //Then, starting with the horizontal, or x coordinate, we'll see if the Character is moving on this axis. If so, we calculate the number of pixels they have moved by dividing the width of a tile by the time it takes the Character to move 1 tile, and multiplying the result by the amount of time that has passed since the Character began moving:
 		{
 			var diff = (tileW / this.delayMove) * (t-this.timeMoved);
-			this.position[0]+= (this.tileTo[0]<this.tileFrom[0] ? 0 - diff : diff);
+			this.position[0]+= (this.tileTo[0]<this.tileFrom[0] ? 0 - diff : diff); //[distance moved] = ([tile width] / [time to move 1 tile]) x ([current time] - [time movement began])
 		}
 		if(this.tileTo[1] != this.tileFrom[1])
 		{
 			var diff = (tileH / this.delayMove) * (t-this.timeMoved);
 			this.position[1]+= (this.tileTo[1]<this.tileFrom[1] ? 0 - diff : diff);
 		}
-
+		// After we've updated the position, we'll round the x and y values to the nearest whole number - this helps to smooth the drawing on our Canvas
 		this.position[0] = Math.round(this.position[0]);
 		this.position[1] = Math.round(this.position[1]);
 	}
 
-	return true;
+	return true; // We can now close this function and return true, to let the code that called this function know that the Character is currently moving.
 }
 // All this allows for the buttery smooth movement i was aimning for
 
-function toIndex(x, y)
+function toIndex(x, y) // We'll also have to make some changes to our window onload function and our drawGame function. Before we do that, we'll create a simple function to make some of our code more readable which will convert a coordinate (x, y) to the corresponding index in the gameMap array.
 {
 	return((y * mapW) + x);
 }
