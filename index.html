@@ -1,13 +1,12 @@
 <!-------------------------------
  * First javascript app project by Johan Lindström
  * "Labyrint Jakten" is a 2d maze game with a simple goal reach the end!
- * In the code you will find out how I Draw my gameMap, Player, Enemy
+ * In the code you will find out how I Draw my gameMap, player and enemy.
  * Make the player move using your arrow keys or the button displayed on screen!
- * This app is easy to expand to a bigger project, create more tiles with different functions, maybe a teleporter or some power ups??
- * Get creative and keep 
+ * This app is easy to expand into a bigger project, simply create more tiles with different functions, how about a teleporter or maybe some power ups??
  *
  * It can easily be scaled down/up by changing the mapW, mapH, tileW and tileH.
- * Also edit the width and height of the canvas
+ * Also edit the width and height of the canvas to make sure everything fits the screen.
  * 
 -->
 <!DOCTYPE html>
@@ -25,6 +24,7 @@
 <body onload="startGame()">
 <h1>Labyrint Jakten</h1>
 <div class="countDown" id="counterId">Go Fast!</div>
+<!-- Canvas standard width 400 height 400, currently upsized to be played in a web browser as an web application. -->
 <canvas id="game" width="600" height="600"></canvas>
 <div>
 	<button type="button" onmousedown="player.moveUp(0,1);">&#8593</button>		<!-- player.moveUp(0,1) allow the player to move up 1 space in the array -->
@@ -42,5 +42,4 @@ MAKE ALERT BOX WITH JQUERY		  	  |	NOT WORKING
 FIND A FIX FOR PLAYER BUTTON MOVEMENT | FIXED
 MAKE PLAYER MOVE AND COLLIDE PROPERLY | FIXED FOR ARROW KEYS, NOT WITH BUTTONS ON SCREEN
 ADD TIMER FOR DRAMATIC EFFECT 		  | ADDED
-
 -->

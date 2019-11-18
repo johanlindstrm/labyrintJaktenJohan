@@ -1,19 +1,19 @@
 /***************************************************
  * First javascript app project by Johan Lindström
  * "Labyrint Jakten" is a 2d maze game with a simple goal reach the end!
- * In the code you will find out how I Draw my gameMap, Player, Enemy
+ * In the code you will find out how I Draw my gameMap, player and enemy.
  * Make the player move using your arrow keys or the button displayed on screen!
- * This app is easy to expand to a bigger project, create more tiles with different functions, maybe a teleporter or some power ups??
- * Get creative and keep 
+ * This app is easy to expand into a bigger project, simply create more tiles with different functions, how about a teleporter or maybe some power ups??
+ * 
  *
  * It can easily be scaled down/up by changing the mapW, mapH, tileW and tileH.
- * Also edit the width and height of the canvas
+ * Also edit the width and height of the canvas to make sure everything fits the screen.
  * 
  */
 
-// Original values tileW 40 tileH 40 ----
+// Original values tileW 40 tileH 40
 var tileW = 40, tileH = 40;
-// Original values mapW 10 mapH 10 ---- 
+// Original values mapW 10 mapH 10
 var mapW = 15, mapH = 15;
 var lastFrameTime = 0;
 // We can use the locations in the array to create alot of different functions I use it to end the game when reaching the goal and colliding with an enemy.
@@ -25,47 +25,46 @@ var tileEvents = {
 // Function that is called when the player is out of time.
 function Defeat()
 {
-	alert('OUT OF TIME! YOU LOSE!');
-	console.log('timer = 0');
-	location.reload();
+	alert('OUT OF TIME! YOU LOSE!'); // Displays an alert on screen when function is called
+	console.log('timer = 0'); 	     // Debugging
+	location.reload();				 // After you exit the alert box the page will reload as such the level repeat.
 }
 
 // Function that is called when player lands on array location 208.
 function Goal()
 {
-	alert('Congratulations! YOU WIN!');
-	console.log('GG');
-	location.reload();
+	alert('Congratulations! YOU WIN!');	// Displays an alert on screen function is called
+	console.log('GG');					// Debbuging
+	location.reload();					// After winning the page still reloads and you are simply stuck playing the game forever.
 }
 
 // Function that is called when player collide with enemy. (Not really just triggers when at tile 22 in array)
 function enemyCollide()
 {
-	alert('Ugh! You died! Press OK to restart!');
+	alert('Ugh! You died! Press OK to restart!'); // This displays if you hit the enemy in the array index 22. So not really enemyCollide and just land on the array spot.
 	console.log('collided with enemy');
-	location.reload();
+	location.reload();							  // Reloading the page
 }
 
 // floorTyper and tileTypes makes it easier to switch up the maze and add extra features in the future.
 var floorTypes = {
-	solid	: 0,
-	path	: 1,
-	goal	: 1
+	solid	: 0,	// 0 = solid and player can not move through it.
+	path	: 1,	// 1 = path and player can move on that space.
+	goal	: 1 	// goal = 1 , It's still a path with a diffrent name for semantics. I can later on give that floorType a tileType in the array gameMap and style it diffrently. In my case i show it as a green goal at the end.
 }
 // It's easy just to add to this list when you want to add new tiles of different types to the gameMap array. In the Draw function we introduce that we want to fillStyle our tiles at the gameMap Index number.
 var tileTypes = {
-	0 : { colour:"#222648", floor:floorTypes.solid	},
-	1 : { colour:"#808080", floor:floorTypes.path	},
-	2 : { colour:"#00ff00", floor:floorTypes.goal	},
+	0 : { colour:"#222648", floor:floorTypes.solid	},	// 0 = number given in gameMap, displaying as a solid darkblue wall.
+	1 : { colour:"#808080", floor:floorTypes.path	},	// 1 = number given in gameMap, displaying as a path lightgray
+	2 : { colour:"#00ff00", floor:floorTypes.goal	},	// 2 = number given in gameMap, display as a path and is green.
 }
-
-var enemy = new enemy();
 
 // Creating our character object with properties.
 // Properties can be seen in the movement script.js
 var player = new Character();
 
-// Tag all keys as false from the beginning
+
+// Tag all keys as false from the beginning, making sure there is the keys are not pressed.
 var keysDown = 
 {
 	37 : false,
@@ -73,6 +72,8 @@ var keysDown =
 	39 : false,
 	40 : false
 };
+
+var enemy = new enemy(); // Working on this, planned to do the enemy as i did the player
 
 // Giving the enemy object some properties (same as our player)
 function enemy() {
@@ -82,7 +83,7 @@ function enemy() {
 }
 
 /*
- *Enemy walking currenltly not working, check the
+ *Enemy walking currenltly not working, CHECK THE enemyTest.html for an example on how i wanted to implement it.
  *
 var startPos = [285, 45];
 var endPos = [100, 45];
@@ -107,7 +108,7 @@ function drawEnemy() {
  * Added timer for extra suspense and wanted a working ending
  * TIPS * Comment out the countDown function when working on the code so it dosen't interupt. 
  */
-var timeLeft = 30;
+var timeLeft = 30; // Create a variable with the amount of time on the timer. (30s)
 
     var counter = document.getElementById('timeDiv');
     
@@ -141,7 +142,7 @@ Character.prototype.canMoveTo = function(x, y)
 	return true;
 };
 /************
- * We will also create 4 shorthand methods to see if the Character can move Up, Down, Left, and Right. 
+ * Creating four methods to see if the Character can move Up, Down, Left, and Right. 
  * These methods will simply call the canMoveTo method, passing as arguments the Characters current position (tileFrom) with the x or y values modified according to the direction we're trying to move in, and return the result:
  */
 Character.prototype.canMoveUp		= function() { return this.canMoveTo(this.tileFrom[0], this.tileFrom[1]-1); };
@@ -149,8 +150,8 @@ Character.prototype.canMoveDown 	= function() { return this.canMoveTo(this.tileF
 Character.prototype.canMoveLeft 	= function() { return this.canMoveTo(this.tileFrom[0]-1, this.tileFrom[1]); };
 Character.prototype.canMoveRight 	= function() { return this.canMoveTo(this.tileFrom[0]+1, this.tileFrom[1]); };
 /************
- * Now, to make improve readability when we actually set a destination (tileTo) for a Character,
- * we're going to add methods for each direction which simply take the current game time (in milliseconds) as their argument, 
+ * For improved readability when we actually set a destination (tileTo) for a Character,
+ * we add a method for each direction which simply take the current game time (in milliseconds) as their argument, 
  * and modify the tileTo x or y properties as needed for the target direction. The timeMoved value for the Character is also updated to the passed game time
  */
 Character.prototype.moveLeft	= function(t) { this.tileTo[0]-=1; this.timeMoved = t; };
@@ -159,10 +160,10 @@ Character.prototype.moveUp		= function(t) { this.tileTo[1]-=1; this.timeMoved = 
 Character.prototype.moveDown	= function(t) { this.tileTo[1]+=1; this.timeMoved = t; };
 
 
-// This is called in the html onload in the body. It used to be window.onload = function{} which worked the same but caused some issues with using canvas.
+// This is called in the html onload in the body. It used to be window.onload = function{} which worked the same but caused some issues with using canvas. This is what works for me now and is stable.
 function startGame()
 {
-	ctx = document.getElementById('game').getContext("2d");
+	ctx = document.getElementById('game').getContext("2d"); // Whithout this we don' get the context we draw everything with and displays it on the id we have on the canvas in out html file.
 	requestAnimationFrame(Draw);
 	// We'll add eventListeners for the keydown and keyup events to turn the flags in the keysDown map on or off (true or false) if the keys pressed/released are the arrow keys
 	window.addEventListener("keydown", function(e) {

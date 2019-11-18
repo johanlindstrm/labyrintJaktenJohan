@@ -17,7 +17,7 @@ function Character()
  *	(([tile height] x [destination Y coord]) + (([tile height] - [character height]) / 2))
  * ];
  * 
- * Clean up explanation
+ * 
  */
 Character.prototype.placeAt = function(x, y)
 {
@@ -58,16 +58,19 @@ Character.prototype.processMovement = function(t)
 			var diff = (tileH / this.delayMove) * (t-this.timeMoved);
 			this.position[1]+= (this.tileTo[1]<this.tileFrom[1] ? 0 - diff : diff);
 		}
-		// After we've updated the position, we'll round the x and y values to the nearest whole number - this helps to smooth the drawing on our Canvas
+		// After we've updated the position, we'll round the x and y values to the nearest whole number.
 		this.position[0] = Math.round(this.position[0]);
 		this.position[1] = Math.round(this.position[1]);
 	}
 
 	return true; // We can now close this function and return true, to let the code that called this function know that the Character is currently moving.
 }
-// All this allows for the buttery smooth movement i was aimning for
+/*************************
+ * // We'll also have to make some changes to our window onload function and our drawGame function. 
+ * Before we do that, we'll create a simple function to make some of our code more readable which will convert a coordinate (x, y) to the corresponding index in the gameMap array.
+ */
 
-function toIndex(x, y) // We'll also have to make some changes to our window onload function and our drawGame function. Before we do that, we'll create a simple function to make some of our code more readable which will convert a coordinate (x, y) to the corresponding index in the gameMap array.
+function toIndex(x, y)
 {
 	return((y * mapW) + x);
 }
